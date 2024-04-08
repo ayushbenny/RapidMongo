@@ -6,13 +6,12 @@ from RapidMongo.utils import find_config
 
 
 class RapidMongo:
-    def __init__(self) -> None:
+    def __init__(self, **kwargs) -> None:
+        self.__dict__.update(kwargs)
         self.config_file = self._find_config_file()
         self.connection = self._connection()
         self.mongo_connection = self._mongo_connection
         self.check_connection = self._check_connection()
-        if self.check_connection:
-            print("enter here")
 
     def _find_config_file(self):
         file_name = "config.json"
@@ -46,3 +45,16 @@ class RapidMongo:
             return dict(
                 "Connection Failed. Please make sure you have entered correct credentials"
             )
+
+    def insert_data(self):
+        if self.check_connection:
+            if self.db_name:
+                db_instance = self.mongo_connection[self.db_name]
+            if self.collection:
+                collection_instance = db_instance[self.collection]
+            if isinstance(self.data, list) and all(
+                isinstance(doc, dict) for doc in self.data
+            ):
+                collection_instance.insert_many(self.data)
+            else:
+                return dict(message="Invalid data format. Expecting a list of dictionaries.")
