@@ -1,0 +1,7 @@
+{
+  "py_mongo_cred": {
+    "username": "ayushbenny050",
+    "password": "K8jN5yLmYmJvAfWz",
+    "mongo_url": "cluster0.hsj9vb7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  }
+}
